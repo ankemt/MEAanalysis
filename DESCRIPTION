@@ -1,11 +1,13 @@
 Package: MEAanalysis
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Workflow for analysis of MEA data
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Anke Tukker, Barbara Vreede
+Maintainer: Anke Tukker <a.m.tukker@gmail.com>
+Description: This package contains a number of functions that are part of a
+    standardized workflow to analyse MEA data.
+Depends: R (>= 3.6.0) 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+
