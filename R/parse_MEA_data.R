@@ -31,14 +31,36 @@ extract_header <- function(file){
   header <- tidyr::unite(header, col = "info", -X1, sep = " ")
   # split first column into two (based on whether there are spaces or not)
   header <- split_based_on_space(header)
+  # re-sort and rename columns
+  header <- dplyr::select(header, level_1, level_2, info)
+  header <- dplyr::rename(header, type_1 = level_1, type_2 = level_2)
+  # remove rows without data in info
+  # header <- dplyr::filter(header, info!=" ")
+  header <- header[grepl("[[:alnum:]]+", test$info), ]
   return(header)
 }
 
 split_based_on_space <- function(df){
+  # move both levels to their own column
+  df <- dplyr::rename(df, type = 1)
+  df$level_1 <- ifelse(!grepl("[[:space:]]{3}", df$type), df$type, NA)
+  df$level_2 <- ifelse(grepl("[[:space:]]{3}", df$type), df$type, NA)
+
+  # remove spaces from level2
+  df$level_2 <- gsub("[[:space:]]{1}[[:space:]]+", "", df$level_2)
+
+  # add level1 content to empty cells below
+  level1_index <- grep("[[:space:]]{3}", df$type, invert = T)
+  level2_index <- grep("[[:space:]]{3}", df$type)
+
+  for(i in level2_index){
+    k <- i
+    while(!k %in% level1_index){k <- k - 1}
+    level1_content <- df$type[k]
+    df[i,"level_1"] <- level1_content
+  }
   return(df)
 }
-
-test <- parse_MEA_file("~/Projects/MEA/200814_LvM_256062_1293-05_MEA_rCortex_Permethrin_exposure_female_DIV11_Spike Detector (7 x STD)_neuralMetrics.csv")
 
 df <- parse_MEA_data(
   exposurefile = "~/Projects/MEA/200814_LvM_256062_1293-05_MEA_rCortex_Permethrin_exposure_female_DIV11_Spike Detector (7 x STD)_neuralMetrics.csv",
