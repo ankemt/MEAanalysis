@@ -19,7 +19,6 @@ parse_MEA_file <- function(path){
   return(header)
 }
 
-
 extract_header <- function(file){
   # what row number has "Well Averages"? This is the first data row.
   # extract all data above this row
@@ -35,8 +34,7 @@ extract_header <- function(file){
   header <- dplyr::select(header, level_1, level_2, info)
   header <- dplyr::rename(header, type_1 = level_1, type_2 = level_2)
   # remove rows without data in info
-  # header <- dplyr::filter(header, info!=" ")
-  header <- header[grepl("[[:alnum:]]+", test$info), ]
+  header <- header[grepl("[[:alnum:]]+", header$info), ]
   return(header)
 }
 
