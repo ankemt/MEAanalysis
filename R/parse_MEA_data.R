@@ -1,3 +1,6 @@
+#' @import magrittr
+NULL
+
 parse_MEA_data <- function(exposurefile, baselinefile){
   exposure <- parse_MEA_file(exposurefile)
   baseline <- parse_MEA_file(baselinefile)
@@ -19,7 +22,7 @@ parse_MEA_file <- function(path){
   # select well info and flip axes *transpose
   content <- extract_content(file)
 
-  return(file)
+  return(content)
 }
 
 extract_header <- function(file){
@@ -64,6 +67,31 @@ split_based_on_space <- function(df){
   return(df)
 }
 
+clean_content <- function(df){
+  # first row values
+  cols_to_use <- grep("[[:alnum:]]+", df[1,])
+  df <- df[,cols_to_use]
+  # first row becomes names
+  names(df) <- df[1,]
+  df <- df[2:nrow(df),]
+  # turn first column into two
+  df <- df %>%
+    split_based_on_space() %>%
+    dplyr::select(level_1, level_2, everything()) %>%
+    dplyr::select(-type, -`NA`)
+  # first row values
+  # TODO:
+  # we willen een masker over de hele dataset leggen
+  # dat checkt of er een datapunt in de cel zit
+  # daarna som maken van alle rijen
+  # en als het aantal datapunten 1 of kleiner is
+  # dan wordt de rij discarded
+  # cols_to_use <- grepl("[[:alnum:]]+", df[1,])
+
+
+  return(df)
+}
+
 extract_content <- function(file){
   # what row number has "Well Averages"? This is the first data row.
   # what row number has "Measurement"? This is the first row with electrode
@@ -72,7 +100,7 @@ extract_content <- function(file){
   n_ms <- grep(pattern = "Measurement", x = dplyr::pull(file, 1))
   well_averages <- file[n_wa:(n_ms-1),]
   electrode_measurement <- file[n_ms:nrow(file),]
-  # TODO why does split_based_on_space() not work!?
+  well_averages <- clean_content(well_averages)
   return(well_averages)
 }
 
@@ -80,6 +108,6 @@ extract_content <- function(file){
 
 
 
-testfile <- parse_MEA_data(
+testcontent <- parse_MEA_data(
   exposurefile = "~/Projects/MEA/200814_LvM_256062_1293-05_MEA_rCortex_Permethrin_exposure_female_DIV11_Spike Detector (7 x STD)_neuralMetrics.csv",
   baselinefile = "~/Projects/MEA/200814_LvM_256062_1293-05_MEA_rCortex_Permethrin_baseline_female_DIV11_Spike Detector (7 x STD)_neuralMetrics.csv")
