@@ -5,11 +5,11 @@ parse_MEA_data <- function(exposurefile, baselinefile){
   exposure <- parse_MEA_file(exposurefile)
   baseline <- parse_MEA_file(baselinefile)
 
-  df <- exposure
-  return(df)
+  # TODO calculate differences
+  return(exposure)
 }
 
-# Helpers
+# Helper functions
 parse_MEA_file <- function(path){
   no_col <- max(count.fields(path, sep = ","))
   file <- read.csv(path, sep=",", fill=TRUE, header = F, col.names=1:no_col)
@@ -17,15 +17,13 @@ parse_MEA_file <- function(path){
   # select header values
   header <- extract_header(file)
 
-  # TODO do something with this header!
-
   # select well info and flip axes *transpose
   content_wells <- extract_content(file, type = "well")
   content_electrodes <- extract_content(file, type = "electrode")
 
   # combine all data to a single list
   file <- list(header,content_wells,content_electrodes)
-  return(content_electrodes)
+  return(file)
 }
 
 extract_header <- function(file){
@@ -44,7 +42,6 @@ extract_header <- function(file){
   header <- dplyr::rename(header, Setting = level_1, `Sub-setting` = level_2)
   # remove rows without data in Value
   header <- header[grepl("[[:alnum:]]+", header$Value), ]
-  # TODO save header? How? Where?
   return(header)
 }
 
@@ -121,4 +118,5 @@ extract_content <- function(file, type = "well"){
 
 testcontent <- parse_MEA_data(
   exposurefile = "~/Projects/MEA/200814_LvM_256062_1293-05_MEA_rCortex_Permethrin_exposure_female_DIV11_Spike Detector (7 x STD)_neuralMetrics.csv",
-  baselinefile = "~/Projects/MEA/200814_LvM_256062_1293-05_MEA_rCortex_Permethrin_baseline_female_DIV11_Spike Detector (7 x STD)_neuralMetrics.csv")
+  baselinefile = "~/Projects/MEA/200814_LvM_256062_1293-05_MEA_rCortex_Permethrin_baseline_female_DIV11_Spike Detector (7 x STD)_neuralMetrics.csv"
+)
