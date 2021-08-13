@@ -20,9 +20,12 @@ parse_MEA_file <- function(path){
   # TODO do something with this header!
 
   # select well info and flip axes *transpose
-  content <- extract_content(file)
+  content_wells <- extract_content(file, type = "well")
+  content_electrodes <- extract_content(file, type = "electrode")
 
-  return(content)
+  # combine all data to a single list
+  file <- list(header,content_wells,content_electrodes)
+  return(content_electrodes)
 }
 
 extract_header <- function(file){
@@ -68,44 +71,52 @@ split_based_on_space <- function(df){
 }
 
 clean_content <- function(df){
-  # first row values
-  cols_to_use <- grep("[[:alnum:]]+", df[1,])
-  df <- df[,cols_to_use]
-  # first row becomes names
+  # turn first column into two, and merge them to a single parameter
+  df <- split_based_on_space(df)
+  df$Parameter <- paste(df$level_1, df$level_2, sep=": ")
+
+  # reorder and remove superfluous columns
+  df <- df %>%
+    dplyr::select(Parameter, everything()) %>%
+    dplyr::select(-type, -starts_with("level_"))
+
+  # replace empty cells and spaces with NA
+  df[df==" "] <- NA
+  df[df==""] <- NA
+  # assume that we need to have more than one non-empty cell in a row
+  # clear out empty rows and columns
+  df <- df[!rowSums(!is.na(df)) < 2,!colSums(!is.na(df)) < 2]
+
+  # transpose and clean up
+  df <- t(df) %>%
+    as.data.frame()
   names(df) <- df[1,]
   df <- df[2:nrow(df),]
-  # turn first column into two
-  df <- df %>%
-    split_based_on_space() %>%
-    dplyr::select(level_1, level_2, everything()) %>%
-    dplyr::select(-type, -`NA`)
-  # first row values
-  # TODO:
-  # we willen een masker over de hele dataset leggen
-  # dat checkt of er een datapunt in de cel zit
-  # daarna som maken van alle rijen
-  # en als het aantal datapunten 1 of kleiner is
-  # dan wordt de rij discarded
-  # cols_to_use <- grepl("[[:alnum:]]+", df[1,])
 
+  df <- dplyr::rename(df, ID = 1)
+
+  # make the data numeric
+  cols_to_convert = 2:ncol(df)
+  df[cols_to_convert]  <- lapply(df[cols_to_convert], as.numeric)
 
   return(df)
 }
 
-extract_content <- function(file){
-  # what row number has "Well Averages"? This is the first data row.
-  # what row number has "Measurement"? This is the first row with electrode
-  #                                                               measurements.
+extract_content <- function(file, type = "well"){
+  # what row number has "Well Averages"?
+  # This is the first data row for wells.
   n_wa <- grep(pattern = "Well Averages", x = dplyr::pull(file, 1))
+  # what row number has "Measurement"?
+  # This is the first row with electrode measurements.
   n_ms <- grep(pattern = "Measurement", x = dplyr::pull(file, 1))
-  well_averages <- file[n_wa:(n_ms-1),]
-  electrode_measurement <- file[n_ms:nrow(file),]
-  well_averages <- clean_content(well_averages)
-  return(well_averages)
+  if(type == "well"){
+    df <- file[n_wa:(n_ms-1),] %>% clean_content()
+  }
+  if(type == "electrode"){
+    df <- file[n_ms:nrow(file),] %>% clean_content()
+  }
+  return(df)
 }
-
-
-
 
 
 testcontent <- parse_MEA_data(
