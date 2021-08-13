@@ -11,6 +11,8 @@ parse_MEA_data <- function(exposurefile, baselinefile){
 
 # Helper functions
 parse_MEA_file <- function(path){
+  # how many columns does the longest row have?
+  # if this is not indicated, only the first two columns are parsed by R
   no_col <- max(count.fields(path, sep = ","))
   file <- read.csv(path, sep=",", fill=TRUE, header = F, col.names=1:no_col)
 
