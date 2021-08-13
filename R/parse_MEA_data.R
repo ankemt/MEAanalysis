@@ -97,7 +97,6 @@ clean_content <- function(df){
     as.data.frame()
   names(df) <- df[1,]
   df <- df[2:nrow(df),]
-
   df <- dplyr::rename(df, ID = 1)
 
   # make the data numeric
