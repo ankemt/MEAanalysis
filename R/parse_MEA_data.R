@@ -33,17 +33,23 @@ extract_header <- function(file){
   # extract all data above this row
   n_data <- grep(pattern = "Well Averages", x = dplyr::pull(file, 1))
   header <- file[1:(n_data-1),]
+
   # remove empty columns
   header <- Filter(function(x)!all(x == ""), header)
+
   # unite all content of last columns to one
   header <- tidyr::unite(header, col = "Value", -X1, sep = " ")
+
   # split first column into two (based on whether there are spaces or not)
   header <- split_based_on_space(header)
+
   # re-sort and rename columns
   header <- dplyr::select(header, level_1, level_2, Value)
   header <- dplyr::rename(header, Setting = level_1, `Sub-setting` = level_2)
+
   # remove rows without data in Value
   header <- header[grepl("[[:alnum:]]+", header$Value), ]
+
   return(header)
 }
 
@@ -108,12 +114,14 @@ extract_content <- function(file, type = "well"){
   # what row number has "Measurement"?
   # This is the first row with electrode measurements.
   n_ms <- grep(pattern = "Measurement", x = dplyr::pull(file, 1))
+
   if(type == "well"){
     df <- file[n_wa:(n_ms-1),] %>% clean_content()
   }
   if(type == "electrode"){
     df <- file[n_ms:nrow(file),] %>% clean_content()
   }
+
   return(df)
 }
 
