@@ -75,6 +75,7 @@ extract_header <- function(file){
 split_based_on_space <- function(df){
   # move both levels to their own column
   df <- dplyr::rename(df, type = 1)
+  df$type <- as.character(df$type)
   df$level_1 <- ifelse(!grepl("[[:space:]]{3}", df$type), df$type, NA)
   df$level_2 <- ifelse(grepl("[[:space:]]{3}", df$type), df$type, NA)
 
@@ -142,3 +143,4 @@ extract_content <- function(file, type = "well"){
 
   return(df)
 }
+
