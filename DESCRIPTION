@@ -6,7 +6,7 @@ Author: Anke Tukker, Barbara Vreede
 Maintainer: Anke Tukker <a.m.tukker@gmail.com>
 Description: This package contains a number of functions that are part of a
     standardized workflow to analyse MEA data.
-Depends: R (>= 3.6.0) 
+Depends: R (>= 4.0.0) 
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
