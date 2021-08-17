@@ -1,20 +1,16 @@
-test_that("DFs are read as character files", {
-  baseline_source <- system.file("extdata", "baseline_testfile.csv", package = "MEAanalysis")
-  open_csv <- read.csv(baseline_source)
-  expect_equal(typeof(open_csv[,1]), "factor")
-})
-
 test_that("MEA file is correctly parsed", {
   baseline_source <- system.file("extdata", "baseline_testfile.csv", package = "MEAanalysis")
   baseline_parsed <- parse_MEA_file(baseline_source)
-  #exposure_source <- system.file("extdata", "exposure_testfile.csv", package = "MEAanalysis")
-  #exposure_parsed <- parse_MEA_file(exposure_source)
+  exposure_source <- system.file("extdata", "exposure_testfile.csv", package = "MEAanalysis")
+  exposure_parsed <- parse_MEA_file(exposure_source)
+
   # check if list is created
   expect_type(baseline_parsed, "list")
-  #expect_type(exposure_parsed, "list")
+  expect_type(exposure_parsed, "list")
 
   # does list contain 3 elements (header, well averages, electrodes)
-  #expect_equal(names(baseline_parsed), c("Header", "Well averages", "Electrodes"))
+  expect_equal(names(baseline_parsed), c("Header", "Well averages", "Electrodes"))
+
   # does the header have right dimensions?
   # do well averages have right dimensions?
   # do electrodes have right dimensions?
