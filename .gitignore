@@ -46,3 +46,4 @@ po/*~
 
 # Other files
 .Rbuildignore
+.DS_Store
