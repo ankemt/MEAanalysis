@@ -31,6 +31,8 @@ parse_MEA_file <- function(path){
   # if this is not indicated, only the first two columns are parsed by R
   no_col <- max(utils::count.fields(path, sep = ","))
   file <- utils::read.csv(path, sep=",", fill=TRUE, header = F, col.names=1:no_col)
+  cols_to_convert <- 1:ncol(file)
+  file[cols_to_convert]  <- lapply(file[cols_to_convert], as.character)
 
   # select header values
   header <- extract_header(file)
@@ -75,7 +77,7 @@ extract_header <- function(file){
 split_based_on_space <- function(df){
   # move both levels to their own column
   df <- dplyr::rename(df, type = 1)
-  df$type <- as.character(df$type)
+  #df$type <- as.character(df$type)
   df$level_1 <- ifelse(!grepl("[[:space:]]{3}", df$type), df$type, NA)
   df$level_2 <- ifelse(grepl("[[:space:]]{3}", df$type), df$type, NA)
 
@@ -120,7 +122,7 @@ clean_content <- function(df){
   df <- dplyr::rename(df, ID = 1)
 
   # make the data numeric
-  cols_to_convert = 2:ncol(df)
+  cols_to_convert <- 2:ncol(df)
   df[cols_to_convert]  <- lapply(df[cols_to_convert], as.numeric)
 
   return(df)
