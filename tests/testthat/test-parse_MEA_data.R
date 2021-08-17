@@ -1,3 +1,9 @@
+test_that("DFs are read as character files", {
+  baseline_source <- system.file("extdata", "baseline_testfile.csv", package = "MEAanalysis")
+  open_csv <- read.csv(baseline_source)
+  expect_equal(typeof(open_csv[,1]), "factor")
+})
+
 test_that("MEA file is correctly parsed", {
   baseline_source <- system.file("extdata", "baseline_testfile.csv", package = "MEAanalysis")
   baseline_parsed <- parse_MEA_file(baseline_source)
@@ -23,6 +29,7 @@ test_that("MEA file is correctly parsed", {
   # check that well averages are numeric and do not contain NAs
   # check that baseline electrodes contains 317 NAs
   # check that exposure electrodes contains 446 NAs
-
+  # check that Well averages column 2 equals XXX, column 8 equals XXX etc
+  # check that Electrodes average column 6 equals XXX, column 12 equals XXX etc
   })
 
