@@ -31,8 +31,16 @@ parse_MEA_file <- function(path){
   # if this is not indicated, only the first two columns are parsed by R
   no_col <- max(utils::count.fields(path, sep = ","))
   file <- utils::read.csv(path, sep=",", fill=TRUE, header = F, col.names=1:no_col)
-  cols_to_convert <- 1:ncol(file)
-  file[cols_to_convert]  <- lapply(file[cols_to_convert], as.character)
+
+  # if the file is read with earlier versions of R, then the interpretation
+  # of the MEA file will not work correctly because the columns are not parsed
+  # as characters.
+  if(typeof(file[,1]) != "character"){
+    stop(
+  paste("The file is parsed incorrectly and this package will not work.\
+  Please confirm that your R version is 4 or higher.\
+  You are working on", version$version.string)
+  )}
 
   # select header values
   header <- extract_header(file)
@@ -77,7 +85,6 @@ extract_header <- function(file){
 split_based_on_space <- function(df){
   # move both levels to their own column
   df <- dplyr::rename(df, type = 1)
-  #df$type <- as.character(df$type)
   df$level_1 <- ifelse(!grepl("[[:space:]]{3}", df$type), df$type, NA)
   df$level_2 <- ifelse(grepl("[[:space:]]{3}", df$type), df$type, NA)
 
@@ -145,4 +152,3 @@ extract_content <- function(file, type = "well"){
 
   return(df)
 }
-
