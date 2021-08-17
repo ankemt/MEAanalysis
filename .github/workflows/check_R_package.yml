@@ -35,17 +35,3 @@ jobs:
       - name: Check
         run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
         shell: Rscript {0}
-
-  build:
-    runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        R: [ '3.5.3', '3.6.1' ]
-    name: R ${{ matrix.R }} sample
-    steps:
-      - uses: actions/checkout@master
-      - name: Setup R
-        uses: r-lib/actions/setup-r@v1
-        with:
-          r-version: ${{ matrix.R }}
-      - run: Rscript -e 'print("hello")'
