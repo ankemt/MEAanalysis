@@ -38,14 +38,14 @@ parse_MEA_file <- function(path){
   if(typeof(file[,1]) != "character"){
     stop(
   paste("The file is parsed incorrectly and this package will not work.\
-  Please confirm that your R version is 4 or higher.\
+  This may happen when you are working with R versions below 4.\
   You are working on", version$version.string)
   )}
 
   # select header values
   header <- extract_header(file)
 
-  # select well info and flip axes *transpose
+  # select well info and flip axes
   content_wells <- extract_content(file, type = "well")
   content_electrodes <- extract_content(file, type = "electrode")
 
