@@ -10,11 +10,12 @@ NULL
 #' @param exposurepath Path to file with exposure data
 #' @param baselinepath Path to file with baseline data
 #' @export
-treatment_ratio <- function(exposurepath, baselinepath){
+treatment_ratio <- function(exposurepath, baselinepath, treatment){
   exposure <- parse_MEA_file(exposurepath)
   baseline <- parse_MEA_file(baselinepath)
 
   # TODO calculate differences
+  # TODO parse treatment information
   return(exposure)
 }
 
