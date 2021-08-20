@@ -1,33 +1,62 @@
 #' @import magrittr
 NULL
 
-parse_MEA_data <- function(exposurefile, baselinefile){
-  exposure <- parse_MEA_file(exposurefile)
-  baseline <- parse_MEA_file(baselinefile)
+#' Calculate treatment ratios
+#'
+#' Calculate the treatment ratio between exposure and baseline
+#' of MEA output files.
+#' (Currently incomplete)
+#'
+#' @param exposurepath Path to file with exposure data
+#' @param baselinepath Path to file with baseline data
+#' @export
+treatment_ratio <- function(exposurepath, baselinepath){
+  exposure <- parse_MEA_file(exposurepath)
+  baseline <- parse_MEA_file(baselinepath)
 
   # TODO calculate differences
   return(exposure)
 }
 
-# Helper functions
+#' Parse a MEA output file
+#'
+#' From the MEA output file, generate data frames with header info,
+#' well average data, and electrode data.
+#'
+#' @param path Path to the MEA output file
+#' @return list with [1] header, [2] well averages, and [3] electrode data
+#' @export
 parse_MEA_file <- function(path){
   # how many columns does the longest row have?
   # if this is not indicated, only the first two columns are parsed by R
-  no_col <- max(count.fields(path, sep = ","))
-  file <- read.csv(path, sep=",", fill=TRUE, header = F, col.names=1:no_col)
+  no_col <- max(utils::count.fields(path, sep = ","))
+  file <- utils::read.csv(path, sep=",", fill=TRUE, header = F, col.names=1:no_col)
+
+  # if the file is read with earlier versions of R, then the interpretation
+  # of the MEA file will not work correctly because the columns are not parsed
+  # as characters.
+  if(typeof(file[,1]) != "character"){
+    stop(
+  paste("The file is parsed incorrectly and this package will not work.\
+  This may happen when you are working with R versions below 4.\
+  You are working on", version$version.string)
+  )}
 
   # select header values
   header <- extract_header(file)
 
-  # select well info and flip axes *transpose
+  # select well info and flip axes
   content_wells <- extract_content(file, type = "well")
   content_electrodes <- extract_content(file, type = "electrode")
 
   # combine all data to a single list
-  file <- list(header,content_wells,content_electrodes)
+  file <- list("Header" = header,
+               "Well averages" = content_wells,
+               "Electrodes" = content_electrodes)
   return(file)
 }
 
+# Helper functions
 extract_header <- function(file){
   # what row number has "Well Averages"? This is the first data row.
   # extract all data above this row
@@ -82,8 +111,8 @@ clean_content <- function(df){
 
   # reorder and remove superfluous columns
   df <- df %>%
-    dplyr::select(Parameter, everything()) %>%
-    dplyr::select(-type, -starts_with("level_"))
+    dplyr::select(Parameter, tidyselect::everything()) %>%
+    dplyr::select(-type, -tidyselect::starts_with("level_"))
 
   # replace empty cells and spaces with NA
   df[df==" "] <- NA
@@ -100,7 +129,7 @@ clean_content <- function(df){
   df <- dplyr::rename(df, ID = 1)
 
   # make the data numeric
-  cols_to_convert = 2:ncol(df)
+  cols_to_convert <- 2:ncol(df)
   df[cols_to_convert]  <- lapply(df[cols_to_convert], as.numeric)
 
   return(df)
@@ -123,9 +152,3 @@ extract_content <- function(file, type = "well"){
 
   return(df)
 }
-
-
-testcontent <- parse_MEA_data(
-  exposurefile = "~/Projects/MEA/200814_LvM_256062_1293-05_MEA_rCortex_Permethrin_exposure_female_DIV11_Spike Detector (7 x STD)_neuralMetrics.csv",
-  baselinefile = "~/Projects/MEA/200814_LvM_256062_1293-05_MEA_rCortex_Permethrin_baseline_female_DIV11_Spike Detector (7 x STD)_neuralMetrics.csv"
-)

@@ -6,11 +6,17 @@ Author: Anke Tukker, Barbara Vreede
 Maintainer: Anke Tukker <a.m.tukker@gmail.com>
 Description: This package contains a number of functions that are part of a
     standardized workflow to analyse MEA data.
-Depends: R (>= 3.6.0) 
-License: GPL-3
+Depends: R (>= 4.0.0) 
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Imports:
- dplyr (>= 0.8.5),
- robustbase (>= 0.93-6)
+ dplyr,
+ magrittr,
+ robustbase (>= 0.93-6),
+ tidyr,
+ tidyselect
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
