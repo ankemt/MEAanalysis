@@ -1,5 +1,5 @@
 test_that("designfile is correctly parsed", {
-  design_source <- system.file("extdata", "baseline_testfile.csv", package = "MEAanalysis")
+  design_source <- system.file("extdata", "design_testfile.txt", package = "MEAanalysis")
   design <- parse_designfile(design_source)
 
   # the outcome of this function is a list

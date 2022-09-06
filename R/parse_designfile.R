@@ -10,30 +10,41 @@
 #' @export
 parse_designfile <- function(path){
   info = brio::readLines(path)
+
   # prep metadata
   metadata <- NULL
   metadata_names <- c("Date", "ExperimentID", "Total_wells")
 
   for(i in info){
-    # remove any lines that start with #
-    if(stringr::str_starts(i, "#")){next}
+    if(stringr::str_starts(i, "#")){next} # remove any lines that start with #
 
-    i <- stringr::str_split(i, " ")
-    print(i[1]) #this does not work? why?
-    i[1]%in%metadata_names
+    i <- stringr::str_split(i, " ", simplify=TRUE)
+
     # get date, experimentID, total_wells
     if(i[1] %in% metadata_names){
-      rbind(metadata, i)
-      print(metadata)
+      metadata <- rbind(metadata, i)
     }
 
     # get groups
 
   }
 
+  metadata <- make_meta_df(metadata)
 
   design <- "1"
 
-  designlist <- list(metadata, design)
+  designlist <- list("metadata" = metadata,
+                     "design" = design)
   return(designlist)
 }
+
+
+make_meta_df <- function(df){
+  df <- t(df)
+  df <- as.data.frame(df)
+  names(df) <- df[1,]
+  df <- df[2,]
+  row.names(df) <- "value"
+  return(df)
+}
+
