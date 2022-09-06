@@ -1,6 +1,9 @@
 Date 20220905
 ExperimentID test
 Total_wells 48
+# Specify the groups and the different wells below.
+# Always use two spaces before the group name
+# and separate the group and the well names with a space.
 Groups
   Control D1 D2 D3 D4 D5 D6 D7 D8
   0.01 F1 F2 F3 F4 F5 F6 F7 F8
