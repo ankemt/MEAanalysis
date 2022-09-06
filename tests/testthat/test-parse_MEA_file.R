@@ -8,10 +8,6 @@ test_that("MEA file is correctly parsed", {
   # does list contain 3 elements (header, well averages, electrodes)
   expect_equal(names(baseline_parsed), c("Header", "Well averages", "Electrodes"))
 
-  # one of the objects is "Well Averages", another "Electrodes"
-  expect_true("Well averages" %in% names(baseline_parsed))
-  expect_true("Electrodes" %in% names(baseline_parsed))
-
   # Assigns names to each df in list and seperate them so that they can be inspected
   HD <- baseline_parsed$Header
   WA <- baseline_parsed$`Well averages`
