@@ -2,5 +2,6 @@
 
 export(find_outliers)
 export(parse_MEA_file)
+export(parse_designfile)
 export(treatment_ratio)
 import(magrittr)

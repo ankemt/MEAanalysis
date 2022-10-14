@@ -1,24 +1,7 @@
 #' @import magrittr
 NULL
 
-#' Calculate treatment ratios
-#'
-#' Calculate the treatment ratio between exposure and baseline
-#' of MEA output files.
-#' (Currently incomplete)
-#'
-#' @param exposurepath Path to file with exposure data
-#' @param baselinepath Path to file with baseline data
-#' @export
-treatment_ratio <- function(exposurepath, baselinepath){
-  exposure <- parse_MEA_file(exposurepath)
-  baseline <- parse_MEA_file(baselinepath)
-
-  # TODO calculate differences
-  return(exposure)
-}
-
-#' Parse a MEA output file
+#' Parse an MEA output file
 #'
 #' From the MEA output file, generate data frames with header info,
 #' well average data, and electrode data.

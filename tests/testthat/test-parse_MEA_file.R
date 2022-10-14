@@ -41,5 +41,5 @@ test_that("MEA file is correctly parsed", {
   expect_true(sum(is.na(EL)) == 317)
   expect_true(is.numeric(EL$`Activity Metrics: Number of Spikes`))
 
-  })
+})
 
