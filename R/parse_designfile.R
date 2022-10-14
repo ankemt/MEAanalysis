@@ -1,6 +1,6 @@
 #' Parse designfile
 #'
-#' Parses a text file containing the design of the experimental setup.
+#' Parses a text file containing the design of the experiment.
 #'
 #' @param path the location of the design file on the path
 #'
