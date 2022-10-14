@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse_designfile.R
 \name{parse_designfile}
 \alias{parse_designfile}
-\title{Parse designfile}
+\title{Parse design file}
 \usage{
 parse_designfile(path)
 }
@@ -10,9 +10,9 @@ parse_designfile(path)
 \item{path}{the location of the design file on the path}
 }
 \value{
-list with two objects: metadata, containing information on the experiment
-and design, containing a dataframe with cells and corresponding groups.
+list with two objects: `metadata`, containing information on the experiment
+and `design`, containing a dataframe with wells and corresponding groups.
 }
 \description{
-Parses a text file containing the design of the
+Parses a text file containing the design of the experiment.
 }

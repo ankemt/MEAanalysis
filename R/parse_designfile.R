@@ -4,8 +4,8 @@
 #'
 #' @param path the location of the design file on the path
 #'
-#' @return list with two objects: metadata, containing information on the experiment
-#' and design, containing a dataframe with cells and corresponding groups.
+#' @return list with two objects: `metadata`, containing information on the experiment
+#' and `design`, containing a dataframe with wells and corresponding groups.
 #'
 #' @export
 parse_designfile <- function(path){
@@ -66,7 +66,12 @@ make_design_df <- function(df){
   df <- rotate_to_df(df)
 
   # pivot to two columns and sort
-  df <- tidyr::pivot_longer(df, cols = everything(), names_to = "Group", values_to = "Well")
+  df <- tidyr::pivot_longer(df,
+                            cols = tidyr::everything(),
+                            names_to = "Group",
+                            values_to = "Well")
+  #TODO: make_design_df: no visible binding for global variable ‘Well’
+  #TODO: make_design_df: no visible binding for global variable ‘Group’
   df <- dplyr::select(df, Well, Group)
   df <- dplyr::arrange(df, Well)
 
