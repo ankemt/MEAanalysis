@@ -1,6 +1,6 @@
 #' Parse designfile
 #'
-#' Parses a text file containing the design of the
+#' Parses a text file containing the design of the experimental setup.
 #'
 #' @param path the location of the design file on the path
 #'
@@ -9,11 +9,13 @@
 #'
 #' @export
 parse_designfile <- function(path){
-  info = brio::readLines(path)
+  info <- brio::readLines(path)
 
-  # prep metadata
-  metadata <- NULL
   metadata_names <- c("Date", "ExperimentID", "Total_wells")
+
+  # make objects to fill
+  metadata <- NULL
+  designlist <- NULL
 
   for(i in info){
     if(stringr::str_starts(i, "#")){next} # remove any lines that start with #
@@ -22,7 +24,7 @@ parse_designfile <- function(path){
 
     # get date, experimentID, total_wells
     if(i[1] %in% metadata_names){
-      metadata <- rbind(metadata, i)
+      metadata <- rbind(metadata,i)
     }
 
     # get groups
@@ -30,8 +32,6 @@ parse_designfile <- function(path){
   }
 
   metadata <- make_meta_df(metadata)
-
-  design <- "1"
 
   designlist <- list("metadata" = metadata,
                      "design" = design)
@@ -44,7 +44,8 @@ make_meta_df <- function(df){
   df <- as.data.frame(df)
   names(df) <- df[1,]
   df <- df[2,]
-  row.names(df) <- "value"
+  row.names(df) <- NULL # otherwise the row number is 2
+  #TODO type of date and number is a character, fix this?
   return(df)
 }
 
