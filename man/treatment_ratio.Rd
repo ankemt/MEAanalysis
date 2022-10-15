@@ -15,7 +15,7 @@ treatment_ratio(exposurepath, baselinepath, designpath)
 \item{designpath}{Path to file with treatment lay-out}
 }
 \value{
-file with [1] treatment ratio per parameter per well
+data frame with treatment ratio per parameter per well
 }
 \description{
 Calculate the treatment ratio between exposure and baseline of MEA output files
