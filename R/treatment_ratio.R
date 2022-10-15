@@ -28,6 +28,10 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath){
                                  names_to = "Parameter",
                                  values_to = "Exposure_value")
   df <- dplyr::full_join(df_base, df_expo, by = c("ID", "Parameter"))
+  df <- tidyr::separate(df,
+                        col = "Parameter",
+                        sep = " Metrics: ",
+                        into = c("Metric_type", "Parameter"))
 
   df <- dplyr::right_join(design$design, df, by = c("Well" = "ID"))
 
