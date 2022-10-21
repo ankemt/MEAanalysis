@@ -11,13 +11,13 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath){
   exposure <- parse_MEA_file(exposurepath)
   design <- parse_designfile(designpath)
 
-  # collect all metadata
-  metadata <- list(
-    design = design$metadata,
-    exposure = exposure$Header,
-    baseline = baseline$Header
-  )
-  # TODO metadata is not passed outside the function
+  # check from headers whether baseline and exposure can be compared
+  if(!match_MEA_files(exposure$Header, baseline$Header)){
+    stop("The MEA files provided have different metadata attributes and cannot be compared.\
+    Did you provide the correct baseline and exposure files?")
+  }
+
+  # TODO design metadata _ what do we do?
 
   df_base <- tidyr::pivot_longer(baseline$`Well averages`,
                                  cols = tidyr::contains("Metrics"),
