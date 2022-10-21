@@ -6,7 +6,7 @@
 #' @param designpath Path to file with treatment lay-out
 #' @return data frame with treatment ratio per parameter per well
 #' @export
-treatment_ratio <- function(exposurepath, baselinepath, designpath){
+treatment_ratio <- function(exposurepath, baselinepath, designpath, save=F, path="."){
   baseline <- parse_MEA_file(baselinepath)
   exposure <- parse_MEA_file(exposurepath)
   design <- parse_designfile(designpath)
@@ -17,9 +17,6 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath){
   # check whether the baseline and exposure match with design
   match_MEA_design(design$metadata, baseline)
   match_MEA_design(design$metadata, exposure)
-
-
-  # TODO design metadata _ what do we do?
 
   df_base <- tidyr::pivot_longer(baseline$`Well averages`,
                                  cols = tidyr::contains("Metrics"),
@@ -43,7 +40,12 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath){
                       Treatment_ratio_percentage = Treatment_ratio * 100)
 
   # TODO should this function create the file and return the path, or open the file?
+  # If save is T, the file should be saved under the path given; default is working dir
+  # The name can be generated as follows
+  fname <- paste(design$metadata$ExperimentID, design$metadata$Date, sep="_")
+  fname <- paste0(fname, ".csv")
 
+  # TODO should the function return anything at all if save is TRUE?
   return(df)
 }
 
