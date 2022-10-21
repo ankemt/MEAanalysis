@@ -37,8 +37,8 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath){
 
   df <- dplyr::mutate(df,
                       # TODO, this is not absolute v ratio, I think?
-                      Treatment_absolute = Exposure_value / Baseline_value,
-                      Treatment_ratio = Treatment_absolute * 100)
+                      Treatment_ratio = Exposure_value / Baseline_value,
+                      Treatment_ratio_percentage = Treatment_ratio * 100)
 
   # TODO should this function create the file and return the path, or open the file?
 
