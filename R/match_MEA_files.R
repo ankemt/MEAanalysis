@@ -6,6 +6,9 @@
 #' @return boolean (TRUE/FALSE) that indicates whether files can be compared
 #' @export
 match_MEA_files <- function(header1, header2){
-  #TODO fill in this function
-  return(TRUE)
+  header1 <- header1[complete.cases(header1),] # removes rows with NAs
+  header2 <- header2[complete.cases(header2),]
+
+  return(all(header1 == header2))
 }
+
