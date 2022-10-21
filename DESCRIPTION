@@ -20,5 +20,5 @@ Imports:
  tidyr,
  tidyselect
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.1.5)
 Config/testthat/edition: 3

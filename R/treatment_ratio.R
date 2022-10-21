@@ -17,8 +17,10 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath){
     Did you provide the correct baseline and exposure files?")
   }
 
-  #"The MEA files provided have different metadata attributes and cannot be compared.\
-  #  Did you provide the correct baseline and exposure files?"
+  # check whether the baseline and exposure match with design
+  match_MEA_design(design$metadata, baseline)
+  match_MEA_design(design$metadata, exposure)
+
 
   # TODO design metadata _ what do we do?
 
