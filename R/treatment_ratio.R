@@ -12,10 +12,7 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath){
   design <- parse_designfile(designpath)
 
   # check from headers whether baseline and exposure can be compared
-  if(!match_MEA_files(exposure$Header, baseline$Header)){
-    stop("The MEA files provided have different metadata attributes and cannot be compared.\
-    Did you provide the correct baseline and exposure files?")
-  }
+  match_MEA_files(exposure$Header, baseline$Header)
 
   # check whether the baseline and exposure match with design
   match_MEA_design(design$metadata, baseline)

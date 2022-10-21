@@ -8,12 +8,14 @@ test_that("MEA files are matched on their header data", {
   bas_H <- bas$Header
   exp_H <- exp$Header
 
-  expect_true(match_MEA_files(bas_H, exp_H))
+  expect_no_error(match_MEA_files(bas_H, exp_H))
 
   # Edit header so they no longer match
   exp_H$Value <- paste(exp_H$Value, "add")
 
-  expect_false(match_MEA_files(bas_H, exp_H))
+  expect_error(match_MEA_files(bas_H, exp_H),
+               regexp = "The MEA files provided have different metadata attributes")
+
 
 })
 
