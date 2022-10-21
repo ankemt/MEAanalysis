@@ -17,6 +17,9 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath){
     Did you provide the correct baseline and exposure files?")
   }
 
+  #"The MEA files provided have different metadata attributes and cannot be compared.\
+  #  Did you provide the correct baseline and exposure files?"
+
   # TODO design metadata _ what do we do?
 
   df_base <- tidyr::pivot_longer(baseline$`Well averages`,
