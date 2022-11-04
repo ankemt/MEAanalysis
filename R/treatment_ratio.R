@@ -4,7 +4,9 @@
 #' @param exposurepath Path to file with exposure data
 #' @param baselinepath Path to file with baseline data
 #' @param designpath Path to file with treatment lay-out
-#' @return data frame with treatment ratio per parameter per well
+#' @param save Boolean to indicate whether result should be saved
+#' @param path Path where file should be saved
+#' @return data frame with treatment ratio per parameter per well (only if `save` is false)
 #' @export
 treatment_ratio <- function(exposurepath, baselinepath, designpath, save=F, path="."){
   baseline <- parse_MEA_file(baselinepath)
@@ -35,7 +37,6 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath, save=F, path
   df <- dplyr::right_join(design$design, df, by = c("Well" = "ID"))
 
   df <- dplyr::mutate(df,
-                      # TODO, this is not absolute v ratio, I think?
                       Treatment_ratio = Exposure_value / Baseline_value,
                       Treatment_ratio_percentage = Treatment_ratio * 100)
 
@@ -43,9 +44,17 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath, save=F, path
   # If save is T, the file should be saved under the path given; default is working dir
   # The name can be generated as follows
   fname <- paste(design$metadata$ExperimentID, design$metadata$Date, sep="_")
-  fname <- paste0(fname, ".csv")
+  fname <- paste0(fname,".csv")
+# TODO add path to fname (in robust way for both windows and unix)
+    if(save){
+      utils::write.csv(df, fname, row.names = F)
+      # TODO report back to user that file has been saved
+      # TODO don't overwrite existing file
+  } else{
+    return(df)
+    # TODO report metadata
+  }
 
-  # TODO should the function return anything at all if save is TRUE?
-  return(df)
+
 }
 
