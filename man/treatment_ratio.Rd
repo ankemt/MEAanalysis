@@ -5,7 +5,7 @@
 \title{Calculate the treatment ratio between exposure and baseline of MEA output files
 (Currently incomplete)}
 \usage{
-treatment_ratio(exposurepath, baselinepath, designpath)
+treatment_ratio(exposurepath, baselinepath, designpath, save = F, path = ".")
 }
 \arguments{
 \item{exposurepath}{Path to file with exposure data}
@@ -13,9 +13,13 @@ treatment_ratio(exposurepath, baselinepath, designpath)
 \item{baselinepath}{Path to file with baseline data}
 
 \item{designpath}{Path to file with treatment lay-out}
+
+\item{save}{Boolean to indicate whether result should be saved}
+
+\item{path}{Path where file should be saved}
 }
 \value{
-data frame with treatment ratio per parameter per well
+data frame with treatment ratio per parameter per well (only if `save` is false)
 }
 \description{
 Calculate the treatment ratio between exposure and baseline of MEA output files
