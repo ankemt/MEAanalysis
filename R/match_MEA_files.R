@@ -1,6 +1,6 @@
 match_MEA_files <- function(header1, header2){
-  header1 <- header1[complete.cases(header1),] # removes rows with NAs
-  header2 <- header2[complete.cases(header2),]
+  header1 <- header1[stats::complete.cases(header1),] # removes rows with NAs
+  header2 <- header2[stats::complete.cases(header2),]
 
   if(!all(header1 == header2)){
   stop("The MEA files provided have different metadata attributes and cannot be compared.\
