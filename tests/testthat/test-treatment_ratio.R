@@ -28,14 +28,18 @@ test_that("file is saved correctly and not overwritten", {
 
   # run the function to create the csv file
   # TODO expect metadata to be returned to the command line
+  folder <- "treatment-ratio-output"
+  dir.create(folder)
+
   treatment_ratio(
     exposurepath = exposure_source,
     baselinepath = baseline_source,
     designpath = design_source,
-    save = T)
+    save = T,
+    path = folder)
 
   # expect the file
-  fname <- "test_20220905.csv"
+  fname <- paste0(folder, "/test_20220905.csv")
   expect_true(file.exists(fname))
 
   expect_error(
@@ -43,10 +47,13 @@ test_that("file is saved correctly and not overwritten", {
       exposurepath = exposure_source,
       baselinepath = baseline_source,
       designpath = design_source,
-      save = T),
+      save = T,
+      path = folder),
     regexp = "The result was not saved.")
 
-  # remove the file
-  file.remove(fname)
+  # remove the folder + file
+  unlink(folder, recursive = T)
 
+  # just to make sure that the delete went well
+  expect_false(dir.exists(folder))
 })
