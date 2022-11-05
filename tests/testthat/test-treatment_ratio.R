@@ -14,7 +14,21 @@ test_that("treatment ratio file contains expected parameters", {
                    "Mean ISI within Burst - Avg (sec)")
 
   for(param in known_params){
-    testthat::expect_true(param%in%result$Parameter)
+    expect_true(param%in%result$Parameter)
   }
+
+  # confirm the full output with a snapshot
+  expect_snapshot(
+    treatment_ratio(
+      exposurepath = exposure_source,
+      baselinepath = baseline_source,
+      designpath = design_source)
+  )
+})
+
+test_that("file is saved correctly", {
+  baseline_source <- system.file("extdata", "baseline_testfile.csv", package = "MEAanalysis")
+  exposure_source <- system.file("extdata", "exposure_testfile.csv", package = "MEAanalysis")
+  design_source <- system.file("extdata", "design_testfile.txt", package = "MEAanalysis")
 
 })
