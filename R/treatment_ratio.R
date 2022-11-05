@@ -61,6 +61,10 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath, save=F, path
 
 create_path <- function(path){
   path_vector <- stringr::str_split(path, "[\\\\/]")[[1]]
+  lv <- length(path_vector)
+  if(path_vector[lv] == ""){
+    path_vector <- path_vector[1:lv-1]
+  }
   path <- paste(path_vector, collapse = .Platform$file.sep)
   return(path)
 }
