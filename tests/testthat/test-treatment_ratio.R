@@ -18,17 +18,30 @@ test_that("treatment ratio file contains expected parameters", {
   }
 
   # confirm the full output with a snapshot
-  expect_snapshot(
-    treatment_ratio(
-      exposurepath = exposure_source,
-      baselinepath = baseline_source,
-      designpath = design_source)
-  )
+  expect_snapshot(result)
 })
 
-test_that("file is saved correctly", {
+test_that("file is saved correctly and not overwritten", {
   baseline_source <- system.file("extdata", "baseline_testfile.csv", package = "MEAanalysis")
   exposure_source <- system.file("extdata", "exposure_testfile.csv", package = "MEAanalysis")
   design_source <- system.file("extdata", "design_testfile.txt", package = "MEAanalysis")
+
+  # run the function to create the csv file
+  # TODO expect metadata to be returned to the command line
+  treatment_ratio(
+    exposurepath = exposure_source,
+    baselinepath = baseline_source,
+    designpath = design_source,
+    save = T)
+
+  # expect the file
+  # TODO check that the file name is correct - it should be based on today's date?
+  fname <- "test_20220905.csv"
+  expect_true(file.exists(fname))
+
+  # TODO expect that it is impossible to create a new file in an existing path
+
+  # remove the file
+  file.remove(fname)
 
 })
