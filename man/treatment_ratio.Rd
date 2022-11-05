@@ -2,8 +2,7 @@
 % Please edit documentation in R/treatment_ratio.R
 \name{treatment_ratio}
 \alias{treatment_ratio}
-\title{Calculate the treatment ratio between exposure and baseline of MEA output files
-(Currently incomplete)}
+\title{Calculate the treatment ratio between exposure and baseline of MEA output files}
 \usage{
 treatment_ratio(exposurepath, baselinepath, designpath, save = F, path = ".")
 }
@@ -22,6 +21,7 @@ treatment_ratio(exposurepath, baselinepath, designpath, save = F, path = ".")
 data frame with treatment ratio per parameter per well (only if `save` is false)
 }
 \description{
-Calculate the treatment ratio between exposure and baseline of MEA output files
-(Currently incomplete)
+This function calculates the difference between exposure and baseline MEA output files
+and adds to this the information from a design file.
+The output can either be saved as a csv file, or it is returned by the function.
 }
