@@ -40,19 +40,24 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath, save=F, path
                       Treatment_ratio = Exposure_value / Baseline_value,
                       Treatment_ratio_percentage = Treatment_ratio * 100)
 
-  # TODO should this function create the file and return the path, or open the file?
-  # If save is T, the file should be saved under the path given; default is working dir
-  # The name can be generated as follows
-  fname <- paste(design$metadata$ExperimentID, design$metadata$Date, sep="_")
-  fname <- paste0(fname,".csv")
-# TODO add path to fname (in robust way for both windows and unix)
-    if(save){
-      utils::write.csv(df, fname, row.names = F)
+
+
+  if(save){
+    # If save is T, the file should be saved under the path given; default is working dir
+    # The name can be generated as follows
+    fname <- paste(design$metadata$ExperimentID, design$metadata$Date, sep="_")
+    path <- create_path(path)
+    fullname <- paste0(path, "/", fname,".csv")
+    if(!file.exists(fullname)){
+      utils::write.csv(df, fullname, row.names = F)
       # TODO report back to user that file has been saved
-      # TODO don't overwrite existing file
+    } else{
+        stop(paste("A file with the name", fname, "already exists in the location provided.\nThe result was not saved."))
+    }
+
   } else{
-    return(df)
-    # TODO report metadata
+      return(df)
+      # TODO report metadata
   }
 
 
@@ -66,5 +71,6 @@ create_path <- function(path){
     path_vector <- path_vector[1:lv-1]
   }
   path <- paste(path_vector, collapse = .Platform$file.sep)
+  # TODO check that path exists
   return(path)
 }
