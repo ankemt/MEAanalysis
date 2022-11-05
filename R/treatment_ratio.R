@@ -1,5 +1,8 @@
 #' Calculate the treatment ratio between exposure and baseline of MEA output files
-#' (Currently incomplete)
+#'
+#' This function calculates the difference between exposure and baseline MEA output files
+#' and adds to this the information from a design file.
+#' The output can either be saved as a csv file, or it is returned by the function.
 #'
 #' @param exposurepath Path to file with exposure data
 #' @param baselinepath Path to file with baseline data
@@ -12,6 +15,8 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath, save=F, path
   baseline <- parse_MEA_file(baselinepath)
   exposure <- parse_MEA_file(exposurepath)
   design <- parse_designfile(designpath)
+
+  # TODO report metadata
 
   # check from headers whether baseline and exposure can be compared
   match_MEA_files(exposure$Header, baseline$Header)
@@ -50,14 +55,13 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath, save=F, path
     fullname <- paste0(path, "/", fname,".csv")
     if(!file.exists(fullname)){
       utils::write.csv(df, fullname, row.names = F)
-      # TODO report back to user that file has been saved
+      print(paste("The resulting data  has been saved as", fullname))
     } else{
         stop(paste("A file with the name", fname, "already exists in the location provided.\nThe result was not saved."))
     }
 
   } else{
       return(df)
-      # TODO report metadata
   }
 
 

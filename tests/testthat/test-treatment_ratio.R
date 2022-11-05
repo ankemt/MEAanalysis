@@ -4,6 +4,7 @@ test_that("treatment ratio file contains expected parameters", {
   exposure_source <- system.file("extdata", "exposure_testfile.csv", package = "MEAanalysis")
   design_source <- system.file("extdata", "design_testfile.txt", package = "MEAanalysis")
 
+  # TODO expect metadata to be returned to the command line
   result <- treatment_ratio(
                   exposurepath = exposure_source,
                   baselinepath = baseline_source,
@@ -27,16 +28,17 @@ test_that("file is saved correctly and not overwritten", {
   design_source <- system.file("extdata", "design_testfile.txt", package = "MEAanalysis")
 
   # run the function to create the csv file
-  # TODO expect metadata to be returned to the command line
   folder <- "treatment-ratio-output"
   dir.create(folder)
 
-  treatment_ratio(
-    exposurepath = exposure_source,
-    baselinepath = baseline_source,
-    designpath = design_source,
-    save = T,
-    path = folder)
+  expect_output(
+    treatment_ratio(
+      exposurepath = exposure_source,
+      baselinepath = baseline_source,
+      designpath = design_source,
+      save = T,
+      path = folder),
+    regexp = "The resulting data  has been saved")
 
   # expect the file
   fname <- paste0(folder, "/test_20220905.csv")
