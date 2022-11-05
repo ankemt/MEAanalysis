@@ -1,8 +1,7 @@
 # treatment ratio file contains expected parameters
 
     Code
-      treatment_ratio(exposurepath = exposure_source, baselinepath = baseline_source,
-        designpath = design_source)
+      result
     Output
       # A tibble: 2,304 x 8
          Well  Group Metric_type     Parameter         Basel~1 Expos~2 Treat~3 Treat~4
