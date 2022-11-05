@@ -16,10 +16,11 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        r-version: ['4.0', 'release']
+        r-version: ['4.1', 'release']
+        os: ['macos-latest', 'windows-latest', 'ubuntu-latest']
       fail-fast: false
 
     steps:
