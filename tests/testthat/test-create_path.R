@@ -11,7 +11,7 @@ test_that("folder path parsed correctly", {
   expect_equal(testpath, resultpath)
 
   testpath <- create_path("this/is/my/path/")
-  expect_equal(testpath, resultpath)
+  expect_equal(testpath, "resultpath")
 
   rootpath <- "/this/is/my/path"
   testpath <- create_path("/this/is/my/path/")
