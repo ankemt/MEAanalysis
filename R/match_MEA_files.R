@@ -13,7 +13,7 @@ match_MEA_design <- function(designmeta, file){
   n_wells_file <- length(unique(file$`Well averages`$ID))
 
   if(n_wells_file > n_wells){
-    stop("The design file has fewer wells than the MEA file(s) provided. Please check the files and try again.")
+    warning("The design file has fewer wells than the MEA file(s) provided. Are you sure the files are correct?")
   } else if(n_wells_file < n_wells){
     warning("Not all wells in the design file have corresponding data. Are you sure the files are correct?")
   }
