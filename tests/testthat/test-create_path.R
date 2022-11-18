@@ -7,19 +7,24 @@ test_that("folder path parsed correctly", {
   winpath <- "C://dir/subdir"
   rootpath <- "/this/is/my/path"
 
-  testpath <- create_path("this/is/my/path")
+  expect_warning(
+    testpath <- create_path("this/is/my/path"))
   expect_equal(testpath, resultpath)
 
-  testpath <- create_path("this\\is\\my\\path")
+  expect_warning(
+    testpath <- create_path("this\\is\\my\\path"))
   expect_equal(testpath, resultpath)
 
-  testpath <- create_path("this/is/my/path/")
+  expect_warning(
+    testpath <- create_path("this/is/my/path/"))
   expect_equal(testpath, resultpath)
 
-  testpath <- create_path("/this/is/my/path/")
+  expect_warning(
+    testpath <- create_path("/this/is/my/path/"))
   expect_equal(testpath, rootpath)
 
-  testpath <- create_path("C://dir/subdir")
+  expect_warning(
+    testpath <- create_path("C://dir/subdir"))
   expect_equal(testpath, winpath)
   })
 

@@ -50,21 +50,22 @@ treatment_ratio <- function(exposurepath, baselinepath, designpath, save=F, path
   if(save){
     # If save is T, the file should be saved under the path given; default is working dir
     # The name can be generated as follows
-    fname <- paste(design$metadata$ExperimentID, design$metadata$Date, sep="_")
+    fname <- paste(design$metadata$ExperimentID,
+                   design$metadata$Date,
+                   "treatment-ratio",
+                   Sys.Date(),
+                   sep="_")
     path <- create_path(path)
     fullname <- paste0(path, "/", fname,".csv")
     if(!file.exists(fullname)){
       utils::write.csv(df, fullname, row.names = F)
-      print(paste("The resulting data  has been saved as", fullname))
+      warning(paste("The resulting data  has been saved as", fullname))
     } else{
         stop(paste("A file with the name", fname, "already exists in the location provided.\nThe result was not saved."))
     }
-
-  } else{
-      return(df)
   }
 
-
+return(df)
 }
 
 
@@ -75,6 +76,8 @@ create_path <- function(path){
     path_vector <- path_vector[1:lv-1]
   }
   path <- paste(path_vector, collapse = .Platform$file.sep)
-  # TODO check that path exists
+  if(!dir.exists(path)){
+    warning(paste("The folder",path,"does not exist yet. Create the directory before saving the output file."))
+  }
   return(path)
 }

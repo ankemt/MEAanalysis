@@ -31,7 +31,7 @@ test_that("file is saved correctly and not overwritten", {
   folder <- "treatment-ratio-output"
   dir.create(folder)
 
-  expect_output(
+  expect_warning(
     treatment_ratio(
       exposurepath = exposure_source,
       baselinepath = baseline_source,
@@ -41,7 +41,7 @@ test_that("file is saved correctly and not overwritten", {
     regexp = "The resulting data  has been saved")
 
   # expect the file
-  fname <- paste0(folder, "/test_20220905.csv")
+  fname <- paste0(folder, "/test_20220905_treatment-ratio_",Sys.Date(),".csv")
   expect_true(file.exists(fname))
 
   expect_error(
