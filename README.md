@@ -7,7 +7,7 @@ coverage](https://codecov.io/gh/ankemt/MEAanalysis/main/graph/badge.svg)](https:
 
 <!-- badges: end -->
 
-The goal of MEAanalysis is to ...
+The goal of MEAanalysis is to analyse files from the MEA machine.
 
 ## Installation
 
