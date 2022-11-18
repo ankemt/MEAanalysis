@@ -20,7 +20,7 @@ test_that("MEA files are matched on their header data", {
 })
 
 
-test_that("MEA files and header metadata match", {
+test_that("MEA file metadata matches the designfile", {
   exposure_source <- system.file("extdata", "exposure_testfile.csv", package = "MEAanalysis")
   exp <- parse_MEA_file(exposure_source)
 
