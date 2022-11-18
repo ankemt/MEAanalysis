@@ -25,7 +25,10 @@ jobs:
         with:
           extra-packages: any::covr
           needs: coverage
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Test coverage
-        run: covr::codecov(quiet = FALSE)
+        run: covr::codecov(quiet = FALSE) 
         shell: Rscript {0}
+
+
