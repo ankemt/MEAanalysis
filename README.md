@@ -2,8 +2,7 @@
 # MEAanalysis
 
 <!-- badges: start -->
-[![Codecov test
-coverage](https://codecov.io/gh/ankemt/MEAanalysis/main/graph/badge.svg)](https://codecov.io/gh/ankemt/MEAanalysis?branch=main) [![R build status](https://github.com/ankemt/MEAanalysis/workflows/R-CMD-check/badge.svg)](https://github.com/ankemt/MEAanalysis/actions)
+[![codecov](https://codecov.io/gh/ankemt/MEAanalysis/branch/main/graph/badge.svg?token=WTTROZWXQS)](https://codecov.io/gh/ankemt/MEAanalysis) [![R build status](https://github.com/ankemt/MEAanalysis/workflows/R-CMD-check/badge.svg)](https://github.com/ankemt/MEAanalysis/actions)
 
 <!-- badges: end -->
 
