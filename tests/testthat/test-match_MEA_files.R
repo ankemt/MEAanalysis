@@ -39,7 +39,7 @@ test_that("MEA file metadata matches the designfile", {
   design_low <- data.frame(Date = "20220905",
                             ExperimentID = "test",
                             Total_wells = "40")
-  expect_error(match_MEA_design(design_low, exp),
+  expect_warning(match_MEA_design(design_low, exp),
                  regexp = "The design file has fewer wells than the MEA file")
 
 })
