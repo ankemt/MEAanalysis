@@ -12,13 +12,14 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.1
 Imports:
- brio,
- dplyr,
- magrittr,
- robustbase (>= 0.93-6),
- stringr,
- tidyr,
- tidyselect
+    brio,
+    dplyr,
+    magrittr,
+    robustbase (>= 0.93-6),
+    stats,
+    stringr,
+    tidyr,
+    tidyselect
 Suggests: 
     testthat (>= 3.1.5)
 Config/testthat/edition: 3
