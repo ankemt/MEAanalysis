@@ -9,7 +9,7 @@
 #'
 #' @export
 parse_designfile <- function(path){
-  data <- read.csv(path, header=F, sep=":")
+  data <- utils::read.csv(path, header=F, sep=":")
 
   # remove hashed lines, and trim spaces before and after the text
   data <- data[grep("^#", data$V1, invert=T),]
@@ -54,6 +54,8 @@ make_design_df <- function(df){
                             values_to = "Well")
 
   #TODO: make_design_df: no visible binding for global variable ‘Well’
+  #TODO: make_design_df: no visible binding for global variable ‘Group’
+  df <- dplyr::select(df, Well, Group)
   df <- dplyr::arrange(df, Well)
 
   return(df)
