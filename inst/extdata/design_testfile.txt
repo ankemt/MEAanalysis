@@ -4,10 +4,12 @@ Total_wells: 48
 # Specify the groups and the different wells below.
 # Always use two spaces before the group name
 # and separate the group and the well names with a space or comma.
+# This design testfile has some nice weird punctuation
+# to check that everything is still parsed correctly
 Groups:
   Control: D1 D2 D3 D4 D5 D6 D7 D8
-  0.01: F1 F2 F3 F4 F5 F6 F7 F8
-  0.1: E1 E2 E3 E4 E5 E6 E7 E8
-  1: C1 C2 C3 C4 C5 C6 C7 C8
+  0.01: F1,F2,F3 F4 F5 F6 F7 F8
+  0.1: E1 E2,E3 E4 E5 E6 E7 E8
+  1: C1 C2 C3 C4  C5 C6   , C7 C8
   10: B1 B2 B3 B4 B5 B6 B7 B8
-  30: A1 A2 A3 A4 A5 A6 A7 A8
+  30: A1 A2 A3 A4 A5 A6 A7  A8
