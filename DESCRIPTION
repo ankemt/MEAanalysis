@@ -15,6 +15,7 @@ Imports:
  dplyr,
  magrittr,
  robustbase (>= 0.93-6),
+ stats,
  stringr,
  tidyr,
  tidyselect
