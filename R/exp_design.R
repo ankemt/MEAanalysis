@@ -19,3 +19,24 @@ exp_design <- function(date, expID, dir="."){
                 "Groups:\n")
   writeLines(meta, con=path)
 }
+
+
+categorize_wells <- function(start, end, nwells = 48, direction = "LR"){
+  assertthat::assert_that(direction %in% c("LR", "TB"),
+                          msg = "The direction must be LR (left-to-right), or TB (top-to-bottom).")
+
+  assertthat::assert_that(typeof(nwells) == "double",
+                          msg = "`nwells` should be a number.")
+
+  assertthat::assert_that(nwells%%12 == 0, # or: should be either 12, 24, 48 or 96?
+                          msg = "The total number of wells on the plate (`nwells`) does not seem correct.")
+
+  startcol = stringr::str_extract(start, "[:alpha:]")
+  startrow = stringr::str_extract(start, "[:digit:]")
+  endcol = stringr::str_extract(end, "[:alpha:]")
+  endrow = stringr::str_extract(end, "[:digit:]")
+
+  #
+
+  #return(wells)
+}
