@@ -8,7 +8,6 @@
 #' @param expID identifier for the experiment (string)
 #' @param dir directory where the file should be saved
 #'
-#' @return
 #' @export
 exp_design <- function(date, expID, dir="."){
   path <- paste0(dir, "/", "design.txt")
@@ -28,15 +27,37 @@ categorize_wells <- function(start, end, nwells = 48, direction = "LR"){
   assertthat::assert_that(typeof(nwells) == "double",
                           msg = "`nwells` should be a number.")
 
-  assertthat::assert_that(nwells%%12 == 0, # or: should be either 12, 24, 48 or 96?
-                          msg = "The total number of wells on the plate (`nwells`) does not seem correct.")
+  assertthat::assert_that(nwells %in% c(48), #TODO: add other options like c(6, 12, 24, 48, 96),
+                          msg = "The total number of wells on the plate (`nwells`) is incorrect.")
 
-  startcol = stringr::str_extract(start, "[:alpha:]")
-  startrow = stringr::str_extract(start, "[:digit:]")
-  endcol = stringr::str_extract(end, "[:alpha:]")
-  endrow = stringr::str_extract(end, "[:digit:]")
+  startrow = stringr::str_extract(start, "[:alpha:]")
+  startcol = as.numeric(stringr::str_extract(start, "[:digit:]"))
+  endrow = stringr::str_extract(end, "[:alpha:]")
+  endcol = as.numeric(stringr::str_extract(end, "[:digit:]"))
 
-  #
+  allcols <- 1:8
+  allrows <- LETTERS[1:6]
 
-  #return(wells)
+  rows <- LETTERS[letter_as_number(startrow):letter_as_number(endrow)]
+  cols <- startcol:endcol
+
+  wells <- NULL
+
+  if(direction == "LR"){
+    for(row in rows) wells <- c(wells, paste0(row, allcols))
+    removecols <- length(wells) - (max(allcols) - endcol)
+    wells <- wells[startcol:removecols]
+    } else if(direction == "TB"){
+      for(col in cols) wells <- c(wells, paste0(allrows, col))
+      maxrow <- max(letter_as_number(allrows))
+      removerows <- length(wells) - (maxrow - letter_as_number(endrow))
+      wells <- wells[letter_as_number(startrow):removerows]
+  }
+
+  wells <- paste(wells, collapse = " ")
+  return(wells)
 }
+
+letter_as_number <- function(letter) as.numeric(setNames(1:26, LETTERS)[letter])
+
+
