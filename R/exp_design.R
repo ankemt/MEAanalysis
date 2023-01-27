@@ -60,6 +60,6 @@ categorize_wells <- function(start, end, nwells = 48, direction = "LR"){
   return(wells)
 }
 
-letter_as_number <- function(letter) as.numeric(setNames(1:26, LETTERS)[letter])
+letter_as_number <- function(letter) as.numeric(stats::setNames(1:26, LETTERS)[letter])
 
 
