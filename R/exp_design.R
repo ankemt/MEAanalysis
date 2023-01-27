@@ -30,13 +30,15 @@ categorize_wells <- function(start, end, nwells = 48, direction = "LR"){
   assertthat::assert_that(nwells %in% c(48), #TODO: add other options like c(6, 12, 24, 48, 96),
                           msg = "The total number of wells on the plate (`nwells`) is incorrect.")
 
+  rowtotal <- 6
+  coltotal <- 8
+  allcols <- 1:coltotal
+  allrows <- LETTERS[1:rowtotal]
+
   startrow = stringr::str_extract(start, "[:alpha:]")
   startcol = as.numeric(stringr::str_extract(start, "[:digit:]"))
   endrow = stringr::str_extract(end, "[:alpha:]")
   endcol = as.numeric(stringr::str_extract(end, "[:digit:]"))
-
-  allcols <- 1:8
-  allrows <- LETTERS[1:6]
 
   rows <- LETTERS[letter_as_number(startrow):letter_as_number(endrow)]
   cols <- startcol:endcol
