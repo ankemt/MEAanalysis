@@ -1,20 +1,15 @@
+tempdir = "temp-test-exp_design"
+dir.create(tempdir)
+designfile <- paste0(tempdir, "/design.txt")
+
 test_that("Design file is created correctly", {
-  tempdir = "temp-test-exp_design"
-  dir.create(tempdir)
-  date <- "20220109"
-  expID <- "test"
-  designfile <- paste0(tempdir, "/design.txt")
-  write_meta(date = date, expID = expID, nwells = 48, path=designfile)
+  write_meta(date = "20220109", expID = "test", nwells = 48, path=designfile)
+
   expect_true(file.exists(designfile))
 
   design <- readLines(designfile)
-  expected_content <- paste0("Date: ", date)
-  expect_true(expected_content %in% design)
-
-  expected_content <- paste0("ExperimentID: ", expID)
-  expect_true(expected_content %in% design)
-
-  unlink(tempdir, recursive = T)
+  expect_true("Date: 20220109" %in% design)
+  expect_true("ExperimentID: test" %in% design)
 })
 
 
@@ -46,3 +41,20 @@ test_that("Wells are categorized correctly", {
   wells <- categorize_wells(start = "C5", end = "A6", direction = "TB")
   expect_equal(wells, "C5 D5 E5 F5 A6")
 })
+
+
+testthat::test_that("Categories are written correctly",{
+  write_category(
+    group = "0.1",
+    start = "A1",
+    end = "A4",
+    dirx = "LR",
+    nwells = 48,
+    path = designfile
+  )
+
+  design <- readLines(designfile)
+  expect_true("0.1: A1 A2 A3 A4" %in% design)
+})
+
+unlink(tempdir, recursive = T)
