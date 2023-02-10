@@ -4,14 +4,18 @@
 \alias{exp_design}
 \title{Generate experimental design file}
 \usage{
-exp_design(date, expID, dir = ".")
+exp_design(
+  date = readline(prompt = "What is the date of the experiment? "),
+  expID = readline(prompt = "What is the experiment ID? "),
+  path = "./design.txt"
+)
 }
 \arguments{
 \item{date}{date (string, preferably formatted as YYYYMMDD)}
 
 \item{expID}{identifier for the experiment (string)}
 
-\item{dir}{directory where the file should be saved}
+\item{path}{path to the design file (dir/name.txt)}
 }
 \description{
 With information provided by the user, a file is created

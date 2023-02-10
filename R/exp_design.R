@@ -6,7 +6,7 @@
 #'
 #' @param date date (string, preferably formatted as YYYYMMDD)
 #' @param expID identifier for the experiment (string)
-#' @param dir directory where the file should be saved
+#' @param path path to the design file (dir/name.txt)
 #'
 #' @export
 exp_design <- function(date = readline(prompt="What is the date of the experiment? "),
@@ -62,11 +62,14 @@ write_category <- function(
 #' categorize_wells("A1", "B4")
 #' # Wells from top to bottom, starting at A1 and ending at B4
 #' categorize_wells("A1", "B4", direction="TB")
-categorize_wells <- function(start, end, nwells, direction = "LR"){
+categorize_wells <- function(start, end, nwells = 48, direction = "LR"){
   assertthat::assert_that(direction %in% c("LR", "TB"),
                           msg = "The direction must be LR (left-to-right), or TB (top-to-bottom).")
 
-  nwells <- as.integer(nwells)
+  assertthat::assert_that(typeof(nwells) == "double",
+                          msg = "`nwells` should be a number.")
+  #TODO would be nicer if it can convert a string to a number as well
+
   assertthat::assert_that(nwells %in% c(48), #TODO: add other options like c(6, 12, 24, 48, 96),
                           msg = "The total number of wells on the plate (`nwells`) is incorrect.")
 
