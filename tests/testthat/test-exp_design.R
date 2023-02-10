@@ -2,6 +2,10 @@ tempdir = "temp-test-exp_design"
 dir.create(tempdir)
 designfile <- paste0(tempdir, "/design.txt")
 
+# TODO write a test for the interactive function
+# e.g. https://debruine.github.io/post/interactive-test/
+
+
 test_that("Design file is created correctly", {
   write_meta(date = "20220109", expID = "test", nwells = 48, path=designfile)
 
