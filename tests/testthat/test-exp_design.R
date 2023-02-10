@@ -3,8 +3,8 @@ test_that("Design file is created correctly", {
   dir.create(tempdir)
   date <- "20220109"
   expID <- "test"
-  exp_design(date = date, expID = expID, dir = tempdir)
   designfile <- paste0(tempdir, "/design.txt")
+  write_meta(date = date, expID = expID, nwells = 48, path=designfile)
   expect_true(file.exists(designfile))
 
   design <- readLines(designfile)

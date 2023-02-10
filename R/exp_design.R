@@ -26,17 +26,17 @@ write_meta <- function(date, expID, nwells, path){
   write(meta, file=path)
 }
 
-write_category <- function(nwells, path){
-  group <- readline(prompt="What is the group name? ")
-  start <- readline(prompt="What is the first well in this category? ")
-  end <- readline(prompt="What is the last well in this category? ")
-  dirx <- readline(
-    prompt="In what direction ('LR' for left-to-right or 'TB' for top-to-bottom) is the sequence of wells? ")
+write_category <- function(
+    group = readline(prompt="What is the group name? "),
+    start = readline(prompt="What is the first well in this category? "),
+    end = readline(prompt="What is the last well in this category? "),
+    dirx = readline(
+      prompt="In what direction ('LR' for left-to-right or 'TB' for top-to-bottom) is the sequence of wells? "),
+    nwells, path){
+  groupname <- paste0(group, ":") # hacky way to make sure the group question is asked first
   wells <- categorize_wells(start, end, nwells, direction=dirx)
-  write(paste0(group, ": ", wells), file=path, append=TRUE)
+  write(paste(groupname, wells), file=path, append=TRUE)
 }
-
-
 
 
 #' Create well ranges for a design file
