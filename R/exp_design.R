@@ -9,20 +9,28 @@
 #' @param dir directory where the file should be saved
 #'
 #' @export
-exp_design <- function(date, expID, dir="."){
-  path <- paste0(dir, "/", "design.txt")
-  nwells <- 48
+exp_design <- function(date = readline(prompt="What is the date of the experiment? "),
+                       expID = readline(prompt="What is the experiment ID? "),
+                       path="./design.txt"){
+  nwells <- 48 # TODO make this a question also
 
   write_meta(date, expID, nwells, path)
-  write_category(nwells, path)
+
+  # TODO make this a while loop where wells are scored instead of a Q/A
+  continue <- TRUE
+  while(continue){
+    write_category(nwells=nwells, path=path)
+    check_cont <- readline(prompt = "Do you want to add another group? (y/n) ")
+    continue <- stringr::str_detect(check_cont, "y|Y")
+  }
 }
 
 
 write_meta <- function(date, expID, nwells, path){
   meta <- paste0("Date: ", date, "\n",
                  "ExperimentID: ", expID, "\n",
-                 "Total_wells:", nwells, "\n",
-                 "Groups:\n")
+                 "Total_wells: ", nwells, "\n",
+                 "Groups:")
   write(meta, file=path)
 }
 
@@ -54,13 +62,11 @@ write_category <- function(
 #' categorize_wells("A1", "B4")
 #' # Wells from top to bottom, starting at A1 and ending at B4
 #' categorize_wells("A1", "B4", direction="TB")
-categorize_wells <- function(start, end, nwells = 48, direction = "LR"){
+categorize_wells <- function(start, end, nwells, direction = "LR"){
   assertthat::assert_that(direction %in% c("LR", "TB"),
                           msg = "The direction must be LR (left-to-right), or TB (top-to-bottom).")
 
-  assertthat::assert_that(typeof(nwells) == "double",
-                          msg = "`nwells` should be a number.")
-
+  nwells <- as.integer(nwells)
   assertthat::assert_that(nwells %in% c(48), #TODO: add other options like c(6, 12, 24, 48, 96),
                           msg = "The total number of wells on the plate (`nwells`) is incorrect.")
 
