@@ -5,17 +5,17 @@
 \title{Generate experimental design file}
 \usage{
 exp_design(
-  date = readline(prompt = "What is the date of the experiment? "),
-  expID = readline(prompt = "What is the experiment ID? "),
-  path = "./design.txt"
+  path = "./design.txt",
+  date = readline(prompt = "What is the date of the experiment? (YYYYMMDD) "),
+  expID = readline(prompt = "What is the experiment ID? ")
 )
 }
 \arguments{
-\item{date}{date (string, preferably formatted as YYYYMMDD)}
-
-\item{expID}{identifier for the experiment (string)}
-
 \item{path}{path to the design file (dir/name.txt)}
+
+\item{date}{date (string, preferably formatted as YYYYMMDD), default is prompted}
+
+\item{expID}{identifier for the experiment (string), default is prompted}
 }
 \description{
 With information provided by the user, a file is created
