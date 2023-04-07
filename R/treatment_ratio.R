@@ -70,6 +70,7 @@ return(df)
 
 
 create_path <- function(path){
+  # can the following code not be replaced by `dirname`?
   path_vector <- stringr::str_split(path, "[\\\\/]")[[1]]
   lv <- length(path_vector)
   if(path_vector[lv] == ""){
