@@ -4,14 +4,16 @@
 #' that formalizes the experimental design so it can be used to
 #' analyse the MEA file.
 #'
-#' @param date date (string, preferably formatted as YYYYMMDD)
-#' @param expID identifier for the experiment (string)
+#' @param date date (string, preferably formatted as YYYYMMDD), default is prompted
+#' @param expID identifier for the experiment (string), default is prompted
 #' @param path path to the design file (dir/name.txt)
 #'
 #' @export
-exp_design <- function(date = readline(prompt="What is the date of the experiment? "),
-                       expID = readline(prompt="What is the experiment ID? "),
-                       path="./design.txt"){
+exp_design <- function(path="./design.txt",
+                       date = readline(prompt="What is the date of the experiment? (YYYYMMDD) "),
+                       expID = readline(prompt="What is the experiment ID? ")){
+  # TODO check if file can be created
+
   nwells <- 48 # TODO make this a question also
 
   write_meta(date, expID, nwells, path)
@@ -19,6 +21,7 @@ exp_design <- function(date = readline(prompt="What is the date of the experimen
   # TODO make this a while loop where wells are scored instead of a Q/A
   continue <- TRUE
   while(continue){
+    message("You can now add experimental conditions one by one:")
     write_category(nwells=nwells, path=path)
     check_cont <- readline(prompt = "Do you want to add another group? (y/n) ")
     continue <- stringr::str_detect(check_cont, "y|Y")
@@ -27,17 +30,23 @@ exp_design <- function(date = readline(prompt="What is the date of the experimen
 
 
 write_meta <- function(date, expID, nwells, path){
+  directory <- dirname(path)
+  if(!dir.exists(directory)){
+    dir.create(directory, recursive=TRUE)
+  }
   meta <- paste0("Date: ", date, "\n",
                  "ExperimentID: ", expID, "\n",
                  "Total_wells: ", nwells, "\n",
                  "Groups:")
   write(meta, file=path)
+
+  message(paste("The design metadata has been written to file at",path))
 }
 
 write_category <- function(
-    group = readline(prompt="What is the group name? "),
-    start = readline(prompt="What is the first well in this category? "),
-    end = readline(prompt="What is the last well in this category? "),
+    group = readline(prompt="What is the experimental condition? "),
+    start = readline(prompt="What is the first well in this category? (e.g.: A1) "),
+    end = readline(prompt="What is the last well in this category? (e.g.: F8) "),
     dirx = readline(
       prompt="In what direction ('LR' for left-to-right or 'TB' for top-to-bottom) is the sequence of wells? "),
     nwells, path){
