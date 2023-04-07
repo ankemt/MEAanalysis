@@ -44,14 +44,24 @@ rotate_to_df <- function(df){
 
 
 make_design_df <- function(df){
-  wells <- stringr::str_split(df$V2, '[:blank:]*[:punct:]+[:blank:]*|[:blank:]+')
-  wells <- as.data.frame(wells)
-  names(wells) <- df$V1
+  cat_wells <- stringr::str_split(df$V2, '[:blank:]*[:punct:]+[:blank:]*|[:blank:]+')
+  #names(cat_wells) <- df$V1
 
-  df <- tidyr::pivot_longer(wells,
-                            cols = tidyr::everything(),
-                            names_to = "Group",
-                            values_to = "Well")
+  allwells <- NULL
+  allcats <- NULL
+
+  for(n in 1:length(cat_wells)){
+    wells <- cat_wells[[n]]
+    allwells <- c(allwells, wells)
+    cats <- rep(df$V1[n], length(wells))
+    allcats <- c(allcats, cats)
+  }
+
+  df <- data.frame(Well = allwells, Group = allcats)
+
+  if(anyDuplicated(df$Well)>0){
+    stop("Duplicate well names are not allowed.")
+  }
 
   #TODO: make_design_df: no visible binding for global variable ‘Well’
   #TODO: make_design_df: no visible binding for global variable ‘Group’
