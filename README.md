@@ -52,7 +52,7 @@ Total_wells: 48
 Groups:
 control: A1 B1 C1 D1 E1 F1 A2 B2
 ```
-This file can of course also be generated and edited by hand.
+This file can of course also be generated and edited by hand. At the moment the well range functionality only works for 48 well plates. If your input uses a different plate format the design file should be edited by hand.
 
 ### Step 2: Calculate the experiment's treatment ratio
 
