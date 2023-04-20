@@ -31,7 +31,6 @@ MEAanalysis::exp_design()
 
 This call prompts a few questions: first, the date of the experiment and the experiment ID. 
 For example, the experiment `TestExperiment` done on October 3rd 2020:
-``` r
 What is the date of the experiment? (YYYYMMDD) 20201003
 What is the experiment ID? TestExperiment
 ```
