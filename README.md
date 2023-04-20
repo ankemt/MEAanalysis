@@ -19,9 +19,9 @@ devtools::install_github("ankemt/MEAanalysis")
 
 ## Getting started
 
-The MEAanalysis package is under active development. 
+The MEAanalysis package is under active development. Currently, it can be used to create a tidy data object that aggregates data from baseline and exposure neural metrics files that are output files of the MEA device.
 
-### Create an inputfile with the experimental design
+### Step 1: create an inputfile with the experimental design
 
 This can be done with the following function:
 
@@ -56,3 +56,19 @@ control: A1 B1 C1 D1 E1 F1 A2 B2
 ```
 This file can of course also be generated and edited by hand.
 
+### Step 2: Calculate the experiment's treatment ratio
+
+For this function, three input files are required:
+- The neural metrics for the baseline (a `.csv` file)
+- The neural metrics for the exposure (a `.csv` file)
+- The design file created under step 1.
+
+Calculate the treatment ratio as follows:
+``` r
+data <- MEAanalysis::treatment_ratio(
+          exposurepath = "path/to/exposurefile.csv",
+          baselinepath = "path/to/baselinefile.csv",
+          designpath = "path/to/design.txt")
+```
+
+The object created here contains the raw values from both input files (`Baseline_value` and `Exposure_value`) for all wells (included in the `design.txt` file) and parameters, as well as the `Treatment_ratio`, a calculation of exposure/baseline.
