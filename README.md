@@ -72,3 +72,6 @@ data <- MEAanalysis::treatment_ratio(
 ```
 
 The object created here contains the raw values from both input files (`Baseline_value` and `Exposure_value`) for all wells (included in the `design.txt` file) and parameters, as well as the `Treatment_ratio`, a calculation of exposure/baseline.
+
+## Trial use & feedback
+We are very happy with your feedback! Please let us know your experience with this package by creating an [issue](https://github.com/ankemt/MEAanalysis/issues), or by emailing Anke Tukker directly at [atukker@purdue.edu](mailto:atukker@purdue.edu).
