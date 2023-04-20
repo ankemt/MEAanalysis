@@ -37,7 +37,6 @@ What is the experiment ID? TestExperiment
 
 Then, you can add well ranges for the different experimental conditions.
 For example, here is how to add a range of wells for the control:
-``` r
 What is the experimental condition? control
 In what direction ('LR' for left-to-right or 'TB' for top-to-bottom) is the sequence of wells? TB
 What is the first well in this category? (e.g.: A1) A1
