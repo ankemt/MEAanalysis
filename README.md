@@ -17,12 +17,59 @@ You can install the development version of MEAanalysis from [GitHub](https://git
 devtools::install_github("ankemt/MEAanalysis")
 ```
 
-## Example
+## Getting started
 
-This is a basic example which shows you how to solve a common problem:
+This package is under active development. Currently, it can be used to create a tidy data object that aggregates data from baseline and exposure neural metrics output files.
+
+### Step 1: create an inputfile with the experimental design
+
+This can be done with the following function:
 
 ``` r
-library(MEAanalysis)
-## basic example code
+MEAanalysis::exp_design()
 ```
 
+This call prompts a few questions: first, the date of the experiment and the experiment ID. 
+For example, the experiment `TestExperiment` done on October 3rd 2020:
+What is the date of the experiment? (YYYYMMDD) 20201003
+What is the experiment ID? TestExperiment
+```
+
+Then, you can add well ranges for the different experimental conditions.
+For example, here is how to add a range of wells for the control:
+What is the experimental condition? control
+In what direction ('LR' for left-to-right or 'TB' for top-to-bottom) is the sequence of wells? TB
+What is the first well in this category? (e.g.: A1) A1
+What is the last well in this category? (e.g.: F8) B2
+Do you want to add another group? (y/n) n
+```
+
+This generates the file `design.txt` saved in the current working directory, with the following content:
+```
+Date: 20201003
+ExperimentID: TestExperiment
+Total_wells: 48
+Groups:
+control: A1 B1 C1 D1 E1 F1 A2 B2
+```
+This file can of course also be generated and edited by hand. At the moment the well range functionality only works for 48 well plates. If your input uses a different plate format the design file should be edited by hand.
+
+### Step 2: Calculate the experiment's treatment ratio
+
+For this function, three input files are required:
+- The neural metrics for the baseline (a `.csv` file)
+- The neural metrics for the exposure (a `.csv` file)
+- The design file created under step 1.
+
+Calculate the treatment ratio as follows:
+``` r
+data <- MEAanalysis::treatment_ratio(
+          exposurepath = "path/to/exposurefile.csv",
+          baselinepath = "path/to/baselinefile.csv",
+          designpath = "path/to/design.txt")
+```
+
+The object created here contains the raw values from both input files (`Baseline_value` and `Exposure_value`) for all wells (included in the `design.txt` file) and parameters, as well as the `Treatment_ratio`, a calculation of exposure/baseline.
+
+## Trial use & feedback
+We are very happy with your feedback! Please let us know your experience with this package by creating an [issue](https://github.com/ankemt/MEAanalysis/issues), or by emailing Anke Tukker directly at [atukker@purdue.edu](mailto:atukker@purdue.edu).
