@@ -19,7 +19,7 @@ devtools::install_github("ankemt/MEAanalysis")
 
 ## Getting started
 
-The MEAanalysis package is under active development. Currently, it can be used to create a tidy data object that aggregates data from baseline and exposure neural metrics files that are output files of the MEA device.
+This package is under active development. Currently, it can be used to create a tidy data object that aggregates data from baseline and exposure neural metrics output files.
 
 ### Step 1: create an inputfile with the experimental design
 
