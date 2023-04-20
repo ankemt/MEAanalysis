@@ -1,0 +1,6 @@
+Date: 20230407
+ExperimentID: PR
+Total_wells: 48
+Groups:
+control: A3 B3 C3 D3 E3 F3 A4
+0.1: A3 B3 C3 D3 E3 F3 A4

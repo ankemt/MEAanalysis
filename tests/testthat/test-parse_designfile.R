@@ -20,3 +20,14 @@ test_that("designfile is correctly parsed", {
   # does design contain two columns: well and group
   expect_equal(names(design_output$design), c("Well", "Group"))
 })
+
+test_that("duplicates are detected", {
+  design_source <- system.file("extdata", "design_testfile_duplicates.txt", package = "MEAanalysis")
+  expect_error(parse_designfile(design_source), regexp="Duplicate")
+})
+
+test_that("unequal rows are accepted", {
+  design_source <- system.file("extdata", "design_testfile_unequalrows.txt", package = "MEAanalysis")
+  design_output <- parse_designfile(design_source)
+  expect_equal(dim(design_output$design), c(15, 2))
+})

@@ -9,31 +9,19 @@
 #'
 #' @export
 parse_designfile <- function(path){
-  info <- brio::readLines(path)
+  data <- utils::read.csv(path, header=F, sep=":")
 
-  metadata_names <- c("Date", "ExperimentID", "Total_wells")
+  # remove hashed lines, and trim spaces before and after the text
+  data <- data[grep("^#", data$V1, invert=T),]
+  data$V1<- stringr::str_trim(data$V1, side = "both")
+  data$V2 <- stringr::str_trim(data$V2, side = "both")
 
-  # make objects to fill
-  designlist <- NULL
-  metadata <- NULL
-  design <- NULL
+  # the groups start after Groups
+  groups_start <- grep("Groups", data$V1)
+  design <- data[(groups_start+1):nrow(data),]
 
-  for(i in info){
-    if(stringr::str_starts(i, "#")){next} # remove any lines that start with #
-
-    i <- stringr::str_split(i, " ", simplify=TRUE)
-
-    # get date, experimentID, total_wells
-    if(i[1] %in% metadata_names){
-      metadata <- rbind(metadata,i)
-    } else{
-      if(length(i) > 2){
-        design <- rbind(design, i)
-      }
-    }
-    # get groups
-
-  }
+  # metadata is everything before Groups
+  metadata <- data[(1:groups_start-1),]
 
   metadata <- rotate_to_df(metadata)
   design <- make_design_df(design)
@@ -56,20 +44,25 @@ rotate_to_df <- function(df){
 
 
 make_design_df <- function(df){
-  # ensure the first two columns are empty, before removing them
-  if(paste(df[,1],collapse="") != "" |
-     paste(df[,2],collapse="") != ""){
-    stop("Experimental design is unclear. Ensure that every group is preceded by two spaces.")
+  cat_wells <- stringr::str_split(df$V2, '[:blank:]*[:punct:]+[:blank:]*|[:blank:]+')
+  #names(cat_wells) <- df$V1
+
+  allwells <- NULL
+  allcats <- NULL
+
+  for(n in 1:length(cat_wells)){
+    wells <- cat_wells[[n]]
+    allwells <- c(allwells, wells)
+    cats <- rep(df$V1[n], length(wells))
+    allcats <- c(allcats, cats)
   }
-  df <- df[,-c(1,2)]
 
-  df <- rotate_to_df(df)
+  df <- data.frame(Well = allwells, Group = allcats)
 
-  # pivot to two columns and sort
-  df <- tidyr::pivot_longer(df,
-                            cols = tidyr::everything(),
-                            names_to = "Group",
-                            values_to = "Well")
+  if(anyDuplicated(df$Well)>0){
+    stop("Duplicate well names are not allowed.")
+  }
+
   #TODO: make_design_df: no visible binding for global variable ‘Well’
   #TODO: make_design_df: no visible binding for global variable ‘Group’
   df <- dplyr::select(df, Well, Group)
