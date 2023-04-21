@@ -31,12 +31,16 @@ MEAanalysis::exp_design()
 
 This call prompts a few questions: first, the date of the experiment and the experiment ID. 
 For example, the experiment `TestExperiment` done on October 3rd 2020:
+
+```
 What is the date of the experiment? (YYYYMMDD) 20201003
 What is the experiment ID? TestExperiment
 ```
 
 Then, you can add well ranges for the different experimental conditions.
 For example, here is how to add a range of wells for the control:
+
+```
 What is the experimental condition? control
 In what direction ('LR' for left-to-right or 'TB' for top-to-bottom) is the sequence of wells? TB
 What is the first well in this category? (e.g.: A1) A1
